@@ -1,11 +1,11 @@
-import { CommonError } from "../interfaces/error-response"
+import { CustomError } from "../classes/abstracts/custom-error"
 
-export class DatabaseConnectionError extends Error implements CommonError {
+export class DatabaseConnectionError extends CustomError {
   statusCode = 500
   reason = 'Error connecting to database'
 
   constructor() {
-    super()
+    super('Error connecting to database')
 
     // Only because we are extending a built-in class
     Object.setPrototypeOf(this, DatabaseConnectionError.prototype)
