@@ -7,15 +7,13 @@ export const errorHandler = (err: Error, req: Request, res: Response, next: Next
   const errorResponses: { errors: ErrorMessage[] } = { errors: [] }
 
   if (err instanceof RequestValidationError) {
-    const formattedErrors: ErrorMessage[] = err.errors.map(error => {
-      return { message: error.msg, field: error.param }
-    })
-    return res.status(400).send({ errors: formattedErrors })
+    const formattedErrors: ErrorMessage[] = err.serializeErrors()
+    return res.status(err.statusCode).send({ errors: formattedErrors })
   }
 
   if (err instanceof DatabaseConnectionError) {
-    errorResponses.errors = [ {message: err.reason }]
-    return res.status(500).send(errorResponses)
+    errorResponses.errors = err.serializeErrors()
+    return res.status(err.statusCode).send(errorResponses)
   }
 
   errorResponses.errors = [
