@@ -1,7 +1,8 @@
 import express, { Request, Response } from 'express'
 import { body, validationResult } from 'express-validator'
-import { DatabaseConnectionError } from '../errors/database-connection-error'
+import { ConflictError } from '../errors/conflict-error'
 import { RequestValidationError } from '../errors/request-validation-error'
+import { User } from '../models/user'
 
 const router = express.Router()
 
@@ -13,18 +14,29 @@ router.post('/api/users/signup', [
     .trim()
     .isLength({ min: 4, max: 20 })
     .withMessage('Password must be between min 4 to 20 characters')
-], (req: Request, res: Response) => {
+], async (req: Request, res: Response) => {
   const errors = validationResult(req)
 
   if (!errors.isEmpty()) {
     throw new RequestValidationError(errors.array())
   }
 
-  throw new DatabaseConnectionError()
+  const { email, password } = req.body
 
-  // const { email, password } = req.body
-  // console.log('Creating a user...')
-  // res.send({})
+  const existingUser = await User.findOne({ email })
+
+  if (existingUser) {
+    throw new ConflictError('Email is already used')
+  }
+
+  const createdUser = User.build({ email, password })
+  await createdUser.save()
+
+  // throw new DatabaseConnectionError()
+  return res.status(201).send({
+    message: 'User has been created',
+    user: createdUser
+  })
 })
 
 export { router as signupRouter }
