@@ -15,3 +15,9 @@ spec:
       containers:
         - name: auth
           image: irfandyjip89/ticketing_auth
+          env:
+            - name: JWT_KEY # This is what you will look for in the container
+              valueFrom:
+                secretKeyRef:
+                  name: jwt-secret # This is the reference to the "Secret" object name
+                  key: JWT_KEY
