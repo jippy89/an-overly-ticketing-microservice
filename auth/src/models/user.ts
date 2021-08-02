@@ -27,6 +27,16 @@ const userSchema = new mongoose.Schema<UserDoc>({
     type: String,
     required: true
   }
+}, {
+  toJSON: {
+    versionKey: false, // Erase the `doc.__v`
+    transform(doc, ret) {
+      delete ret.password
+
+      ret.id = ret._id
+      delete ret._id
+    }
+  }
 })
 
 // Hooks
