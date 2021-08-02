@@ -3,6 +3,7 @@ import { body, validationResult } from 'express-validator'
 import { ConflictError } from '../errors/conflict-error'
 import { RequestValidationError } from '../errors/request-validation-error'
 import { User } from '../models/user'
+import jwt from 'jsonwebtoken'
 
 const router = express.Router()
 
@@ -32,7 +33,17 @@ router.post('/api/users/signup', [
   const createdUser = User.build({ email, password })
   await createdUser.save()
 
-  // throw new DatabaseConnectionError()
+  // Generate JWT
+  const userJwt = jwt.sign({
+    id: createdUser.id,
+    email: createdUser.email
+  }, 'asdf')
+
+  // Store it on session object
+  req.session = {
+    jwt: userJwt
+  }
+
   return res.status(201).send({
     message: 'User has been created',
     user: createdUser
