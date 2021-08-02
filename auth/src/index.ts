@@ -33,6 +33,9 @@ app.all('*', async () => {
 app.use(errorHandler)
 
 const start = async () => {
+  if (!process.env.JWT_KEY) {
+    throw new Error('`process.env.JWT_KEY variable is not set')
+  }
   try {
     await mongoose.connect('mongodb://auth-mongo-service-clusterip:27017/auth', {
       useNewUrlParser: true,
