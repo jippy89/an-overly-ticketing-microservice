@@ -7,7 +7,7 @@ beforeAll(async () => {
   // This is not the best way of doing it, but it does the job for now
   process.env.JWT_KEY = 'randomStringHehe'
 
-  mongo = new MongoMemoryServer()
+  mongo = await MongoMemoryServer.create()
   const mongoUri = await mongo.getUri()
 
   await mongoose.connect(mongoUri, {
