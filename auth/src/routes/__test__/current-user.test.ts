@@ -1,14 +1,9 @@
 import request from 'supertest'
 import { app } from '../../app'
+import { signup } from '../../test/auth-helper'
 
 it('response about the current detail about the user', async () => {
-  const signupResponse = await request(app)
-    .post('/api/users/signup')
-    .send({
-      email: 'test@test.com',
-      password: 'password'
-    })
-    .expect(201)
+  const signupResponse = await signup()
 
   const cookie = signupResponse.get('Set-Cookie')
 
