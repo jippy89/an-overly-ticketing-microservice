@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import axios from 'axios'
+import Route from 'next/router'
 import useRequest from '../../hooks/user-request.js'
 
 const signUp = () => {
@@ -15,7 +15,12 @@ const signUp = () => {
 
   const onSubmit = async e => {
     e.preventDefault()
-    doRequest()
+    
+    const response = await doRequest()
+
+    if (response.status === 201) {
+      Route.push('/')
+    }
   }
   return (
     <form onSubmit={onSubmit}>
