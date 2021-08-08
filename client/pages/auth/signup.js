@@ -1,14 +1,21 @@
 import { useState } from 'react'
+import axios from 'axios'
 
 const signUp = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const [errors, setErrors] = useState([])
 
-  const onSubmit = (e) => {
+  const onSubmit = async e => {
     e.preventDefault()
 
-    console.log(email)
-    console.log(password)
+    try {
+      const response = await axios.post('/api/users/signup', { email, password })
+      console.log(response)
+    } catch (err) {
+      setErrors(err.response.data.errors)
+    }
+
   }
   return (
     <form onSubmit={onSubmit}>
@@ -23,6 +30,14 @@ const signUp = () => {
         <input type="password" value={password} onChange={e => setPassword(e.target.value)} className="form-control" />
       </div>
 
+      {errors.length > 0 &&
+        <div className="alert alert-danger">
+          <h4>Ooops...</h4>
+          <ul>
+            {errors.map(err => <li key={err.message}>{err.message}</li>)}
+          </ul>
+        </div>
+      }
       <button className="btn btn-primary">Sign Up</button>
     </form>
   )
