@@ -1,7 +1,6 @@
 import express, { Request, Response } from 'express'
 import { body } from 'express-validator'
-import { ConflictError } from '../errors/conflict-error'
-import { validateRequest } from '../middlewares/validate-request'
+import { validateRequest, ConflictError } from '@jiptickets/common'
 import { User } from '../models/user'
 import { Password } from '../services/password'
 import jwt from 'jsonwebtoken'
