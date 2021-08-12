@@ -16,6 +16,8 @@ spec:
         - name: tickets
           image: irfandyjip89/ticketing_tickets
           env:
+            - name: MONGO_URI
+              value: mongodb://tickets-mongo-service-clusterip:27017/tickets
             - name: JWT_KEY # This is what you will look for in the container
               valueFrom:
                 secretKeyRef:
