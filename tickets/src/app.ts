@@ -6,6 +6,7 @@ import { currentUser, errorHandler, NotFoundError } from '@jiptickets/common'
 const app = express()
 
 import { createTicketRouter } from './routes/new'
+import { showTicketRouter } from './routes/show'
 
 app.set('trust proxy', true)
 app.use(express.json())
@@ -15,6 +16,7 @@ app.use(cookieSession({
 }))
 app.use(currentUser)
 
+app.use(showTicketRouter)
 app.use(createTicketRouter)
 
 app.all('*', async () => {
