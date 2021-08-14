@@ -1,10 +1,14 @@
 import request from 'supertest'
 import { app } from '../../app'
 import { signup } from '../../test/auth-helper'
+import mongoose from 'mongoose'
 
 it('returns a 404 when the ticket is not found', async () => {
+  // Generate a random valid MongoDB ID with mongoose
+  const id = new mongoose.Types.ObjectId().toHexString()
+
   await request(app)
-    .get('/api/tickets/ajskdlfjalskdj')
+    .get(`/api/tickets/${id}`)
     .send()
     .expect(404)
 })
