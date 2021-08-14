@@ -27,14 +27,45 @@ it('returns status other than 401 if user signed in', async () => {
   expect(response.status).not.toEqual(401)
 })
 
-it('returns an error if invalid title is provided', async () => {
+describe('Request body validation', () => {
+  it('returns an error if invalid title is provided', async () => {
+    await request(app)
+      .post('/api/tickets')
+      .set('Cookie', await signup())
+      .send({
+        title: '',
+        price: 99
+      })
+      .expect(400)
+    
+    const response = await request(app)
+      .post('/api/tickets')
+      .set('Cookie', await signup())
+      .send({
+        price: 99
+      })
+      .expect(400)
+  })
   
-})
+  it('returns an error if invalid price is provided', async () => {
+    await request(app)
+      .post('/api/tickets')
+      .set('Cookie', await signup())
+      .send({
+        title: 'Lorem',
+        price: -99
+      })
+      .expect(400)
+    
+    const response = await request(app)
+      .post('/api/tickets')
+      .set('Cookie', await signup())
+      .send({
+        title: 'Lorem'
+      })
+      .expect(400)
+  })
 
-it('returns an error if invalid price is provided', async () => {
-  
-})
-
-it('creates a ticket with valid inputs', async () => {
-  
+  it('creates a ticket with valid inputs', async () => {
+  })
 })
