@@ -1,4 +1,4 @@
-import { NotFoundError, requireAuth } from '@jiptickets/common'
+import { NotAuthorizedError, NotFoundError, requireAuth } from '@jiptickets/common'
 import express, { Request, Response } from 'express'
 import { Ticket } from '../models/ticket'
 
@@ -11,6 +11,10 @@ router.put('/api/tickets/:id', [
 
   if (!foundTicket) {
     throw new NotFoundError()
+  }
+
+  if (foundTicket.userId !== req.currentUser!.id) {
+    throw new NotAuthorizedError()
   }
 
   res.send(foundTicket)
