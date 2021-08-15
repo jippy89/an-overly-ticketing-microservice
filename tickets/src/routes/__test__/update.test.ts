@@ -37,7 +37,6 @@ it('returns 404 if the user does not own the ticket', async () => {
       price: 90
     })
 
-
   expect(typeof response.body.id).toBe('string')
   expect(response.body.title).toBe('Abcdef')
   expect(response.body.price).toBe(90)
@@ -54,9 +53,43 @@ it('returns 404 if the user does not own the ticket', async () => {
 
 describe('Request body validation', () => {
   
-  it('returns 409 if the title is invalid', async () => {
+  it('returns 400 if the title is invalid', async () => {
+    const cookie = await signup()
+    const response = await request(app)
+      .post(`/api/tickets`)
+      .set('Cookie', cookie)
+      .send({
+        title: 'Abcdef',
+        price: 90
+      })
+
+    await request(app)
+      .put(`/api/tickets/${response.body.id}`)
+      .set('Cookie', cookie)
+      .send({
+        title: '',
+        price: 90
+      })
+      .expect(400)
   })
   
-  it('returns 409 if the price is invalid', async () => {
+  it('returns 400 if the price is invalid', async () => {
+    const cookie = await signup()
+    const response = await request(app)
+      .post(`/api/tickets`)
+      .set('Cookie', cookie)
+      .send({
+        title: 'Abcdef',
+        price: 90
+      })
+    
+    await request(app)
+      .put(`/api/tickets/${response.body.id}`)
+      .set('Cookie', cookie)
+      .send({
+        title: 'Updated',
+        price: -90
+      })
+      .expect(400)
   })
 })
