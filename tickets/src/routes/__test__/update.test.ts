@@ -29,6 +29,27 @@ it('returns 401 if the user is not authenticated', async () => {
 })
 
 it('returns 404 if the user does not own the ticket', async () => {
+  const response = await request(app)
+    .post(`/api/tickets`)
+    .set('Cookie', await signup())
+    .send({
+      title: 'Abcdef',
+      price: 90
+    })
+
+
+  expect(typeof response.body.id).toBe('string')
+  expect(response.body.title).toBe('Abcdef')
+  expect(response.body.price).toBe(90)
+
+  await request(app)
+    .put('/api/tickets/' + response.body.id)
+    .set('Cookie', await signup())
+    .send({
+      title: 'Fedcba',
+      price: 100
+    })
+    .expect(401)
 })
 
 describe('Request body validation', () => {
