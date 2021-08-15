@@ -7,7 +7,7 @@ const router = express.Router()
 router.put('/api/tickets/:id', [
   requireAuth,
 ], async (req: Request, res: Response) => {
-  const foundTicket = Ticket.findById(req.params.id)
+  const foundTicket = await Ticket.findById(req.params.id)
 
   if (!foundTicket) {
     throw new NotFoundError()
