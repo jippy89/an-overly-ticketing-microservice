@@ -1,9 +1,10 @@
 import jwt from 'jsonwebtoken'
+import mongoose from 'mongoose'
 
 export const signup = async () => {
   // Build a JWT Token. { id, email }
   const payload = {
-    id: 'ajskdlfjalsd',
+    id: new mongoose.Types.ObjectId().toHexString(),
     email: 'test@test.com'
   }
 
