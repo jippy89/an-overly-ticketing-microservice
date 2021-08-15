@@ -93,3 +93,26 @@ describe('Request body validation', () => {
       .expect(400)
   })
 })
+
+it('Updates the ticket with valid inputs', async () => {
+  const cookie = await signup()
+  const postResponse = await request(app)
+    .post(`/api/tickets`)
+    .set('Cookie', cookie)
+    .send({
+      title: 'Abcdef',
+      price: 90
+    })
+  
+  const putResponse = await request(app)
+    .put(`/api/tickets/${postResponse.body.id}`)
+    .set('Cookie', cookie)
+    .send({
+      title: 'Updated',
+      price: 100
+    })
+    .expect(200)
+
+  expect(putResponse.body.title).toBe('Updated')
+  expect(putResponse.body.price).toBe(100)
+})
