@@ -26,6 +26,12 @@ router.put('/api/tickets/:id', [
     throw new NotAuthorizedError()
   }
 
+  foundTicket.set({
+    title: req.body.title,
+    price: req.body.price
+  })
+  await foundTicket.save()
+
   res.send(foundTicket)
 })
 
