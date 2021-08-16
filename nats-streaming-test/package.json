@@ -8,5 +8,11 @@
   },
   "keywords": [],
   "author": "Jip Irfandy <irfandyjip98@gmail.com>",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "@types/node": "^16.6.1",
+    "node-nats-streaming": "^0.3.2",
+    "ts-node-dev": "^1.1.8",
+    "typescript": "^4.3.5"
+  }
 }
