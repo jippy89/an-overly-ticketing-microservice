@@ -17,13 +17,14 @@ stan.on('connect', () => {
   const options = stan.subscriptionOptions()
     .setManualAckMode(true)
     .setDeliverAllAvailable()
+    .setDurableName('accounting-service')
   /**
    * The first argument makes you listen to a "Channel" or "Topic"
    * The second argument includes you to a certain "Queue Group"
    *   So if 1 data coming it will only be received by 1 service. And not multiple.
    * The third argument is an option
    */
-  const subscription = stan.subscribe('ticket:created', options)
+  const subscription = stan.subscribe('ticket:created', 'queue-order-group', options)
 
   subscription.on('message', (msg: Message) => {
     const data = msg.getData()
