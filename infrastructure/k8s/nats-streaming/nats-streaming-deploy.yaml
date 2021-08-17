@@ -20,11 +20,12 @@ spec:
             '4222',
             '-m',
             '8222',
-            '-hbi',
+            # 'hb' stands for Heartbeat
+            '-hbi', # How often does the NATS Server will make a request to each of its client
             '5s',
-            '-hbt',
+            '-hbt', # How long each client should respond 
             '5s',
-            '-hbf',
+            '-hbf', # How long a client can fail before NATS server assume it's dead and gone
             '2',
             '-SD',
             '-cid',
