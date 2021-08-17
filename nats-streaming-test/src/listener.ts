@@ -9,7 +9,12 @@ const stan = nats.connect('ticketing', randomBytes(4).toString('hex'), {
 stan.on('connect', () => {
   console.log('Listener connected to NATS')
 
-  const subscription = stan.subscribe('ticket:created')
+  /**
+   * The first argument makes you listen to a "Channel" or "Topic"
+   * The second argument includes you to a certain "Queue Group"
+   *   So if 1 data coming it will only be received by 1 service. And not multiple.
+   */
+  const subscription = stan.subscribe('ticket:created', 'order-service-queue-group')
 
   subscription.on('message', (msg: Message) => {
     const data = msg.getData()
