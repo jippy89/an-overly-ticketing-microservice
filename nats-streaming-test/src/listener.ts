@@ -16,6 +16,7 @@ stan.on('connect', () => {
 
   const options = stan.subscriptionOptions()
     .setManualAckMode(true)
+    .setDeliverAllAvailable()
   /**
    * The first argument makes you listen to a "Channel" or "Topic"
    * The second argument includes you to a certain "Queue Group"
