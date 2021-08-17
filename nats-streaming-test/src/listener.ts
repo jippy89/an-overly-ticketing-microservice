@@ -9,6 +9,11 @@ const stan = nats.connect('ticketing', randomBytes(4).toString('hex'), {
 stan.on('connect', () => {
   console.log('Listener connected to NATS')
 
+  stan.on('close', () => {
+    console.log('NATS Listener is closing...')
+    process.exit()
+  })
+
   const options = stan.subscriptionOptions()
     .setManualAckMode(true)
   /**
@@ -30,3 +35,8 @@ stan.on('connect', () => {
     msg.ack()
   })
 })
+
+// On program interruption (like CTRL + C)
+process.on('SIGINT', () => stan.close())
+// On program termination
+process.on('SIGTERM', () => stan.close())
