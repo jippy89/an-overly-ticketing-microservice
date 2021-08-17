@@ -22,7 +22,7 @@ stan.on('connect', () => {
    *   So if 1 data coming it will only be received by 1 service. And not multiple.
    * The third argument is an option
    */
-  const subscription = stan.subscribe('ticket:created', 'order-service-queue-group', options)
+  const subscription = stan.subscribe('ticket:created', options)
 
   subscription.on('message', (msg: Message) => {
     const data = msg.getData()
