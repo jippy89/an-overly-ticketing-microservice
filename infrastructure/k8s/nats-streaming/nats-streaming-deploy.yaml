@@ -28,6 +28,6 @@ spec:
             '-hbf', # How long a client can fail before NATS server assume it's dead and gone
             '2',
             '-SD',
-            '-cid',
+            '-cid', # cid stands for "Cluster ID"
             'ticketing'
           ]
