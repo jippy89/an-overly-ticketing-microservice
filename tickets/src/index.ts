@@ -1,5 +1,6 @@
 import mongoose from 'mongoose'
 import { app } from './app'
+import { natsWrapper } from './nats-wrapper'
 
 const start = async () => {
   const PORT = 3000
@@ -12,6 +13,7 @@ const start = async () => {
   }
 
   try {
+    await natsWrapper.connect('ticketing', 'asdfasd', 'http://nats-streaming-service-clusterip:4222')
     await mongoose.connect(process.env.MONGO_URI, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
