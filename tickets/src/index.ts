@@ -12,8 +12,19 @@ const start = async () => {
     throw new Error('`process.env.MONGO_URI variable is not set')
   }
 
+  // Check NATS env variables
+  if (!process.env.NATS_CLUSTER_ID) {
+    throw new Error('`process.env.NATS_CLUSTER_ID variable is not set')
+  }
+  if (!process.env.NATS_CLIENT_ID) {
+    throw new Error('`process.env.NATS_CLIENT_ID variable is not set')
+  }
+  if (!process.env.NATS_URL) {
+    throw new Error('`process.env.NATS_URL variable is not set')
+  }
+
   try {
-    await natsWrapper.connect('ticketing', 'asdfasd', 'http://nats-streaming-service-clusterip:4222')
+    await natsWrapper.connect(process.env.NATS_CLUSTER_ID,process.env.NATS_CLIENT_ID, process.env.NATS_URL)
     // Graceful Shutdown
     natsWrapper.client.on('close', () => {
       console.log('NATS Listener is closing...')
