@@ -2,6 +2,7 @@ import request from 'supertest'
 import { app } from '../../app'
 import { Ticket } from '../../models/ticket'
 import { signup } from '../../test/auth-helper'
+import { natsWrapper } from '../../nats-wrapper'
 
 it('has a route handler listening to /api/tickets for post requests', async () => {
   const response = await request(app)
@@ -86,5 +87,20 @@ describe('Request body validation', () => {
     expect(tickets.length).toBe(1)
     expect(tickets[0].title).toBe(title)
     expect(tickets[0].price).toBe(99)
+  })
+
+  it('Publishes an event once ticket has been created', async () => {
+    const title = 'Lorem'
+
+    await request(app)
+      .post('/api/tickets')
+      .set('Cookie', await signup())
+      .send({
+        title: title,
+        price: 99
+      })
+      .expect(201)
+    
+    expect(natsWrapper.client.publish).toHaveBeenCalled()
   })
 })
