@@ -2,6 +2,9 @@ import { MongoMemoryServer } from 'mongodb-memory-server'
 import mongoose from 'mongoose'
 import { app } from '../app'
 
+// Mock `src/nats-wrapper.ts` with the one in `src/__mocks__/nats-wrapper.ts`
+jest.mock('../nats-wrapper.ts')
+
 let mongo: MongoMemoryServer
 beforeAll(async () => {
   // This is not the best way of doing it, but it does the job for now
