@@ -7,6 +7,8 @@ jest.mock('../nats-wrapper.ts')
 
 let mongo: MongoMemoryServer
 beforeAll(async () => {
+  // Clears all mocks https://jestjs.io/docs/jest-object#jestclearallmocks
+  jest.clearAllMocks()
   // This is not the best way of doing it, but it does the job for now
   process.env.JWT_KEY = 'randomStringHehe'
 
