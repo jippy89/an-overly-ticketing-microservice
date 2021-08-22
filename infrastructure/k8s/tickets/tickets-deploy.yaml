@@ -23,3 +23,11 @@ spec:
                 secretKeyRef:
                   name: jwt-secret # This is the reference to the "Secret" object name
                   key: JWT_KEY
+            - name: NATS_URL
+              value: http://nats-streaming-service-clusterip:4222
+            - name: NATS_CLUSTER_ID
+              value: ticketing
+            - name: NATS_CLIENT_ID
+              valueFrom: # Get the pod's name
+                fieldRef:
+                  fieldPath: metadata.name
