@@ -5,10 +5,10 @@ import { currentUser, errorHandler, NotFoundError } from '@jiptickets/common'
 
 const app = express()
 
-import { createTicketRouter } from './routes/new'
-import { showTicketRouter } from './routes/show'
-import { indexTicketRouter } from './routes/index'
-import { updateTicketRouter } from './routes/update'
+import { newOrderRouter } from './routes/new'
+import { showOrderRouter } from './routes/show'
+import { indexOrderRouter } from './routes/index'
+import { deleteOrderRouter } from './routes/delete'
 
 app.set('trust proxy', true)
 app.use(express.json())
@@ -18,10 +18,10 @@ app.use(cookieSession({
 }))
 app.use(currentUser)
 
-app.use(indexTicketRouter)
-app.use(showTicketRouter)
-app.use(createTicketRouter)
-app.use(updateTicketRouter)
+app.use(indexOrderRouter)
+app.use(showOrderRouter)
+app.use(newOrderRouter)
+app.use(deleteOrderRouter)
 
 app.all('*', async () => {
   throw new NotFoundError()
