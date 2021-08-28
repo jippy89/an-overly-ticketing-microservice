@@ -17,7 +17,7 @@ router.get('/api/orders', [
 ] , async (req: Request, res: Response) => {
   const { ticketId } = req.body
   // Find the ticket
-  const ticket = Ticket.findById(ticketId)
+  const ticket = await Ticket.findById(ticketId)
   if (!ticket) {
     throw new NotFoundError()
   }
