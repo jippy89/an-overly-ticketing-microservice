@@ -1,9 +1,8 @@
 import express, { Request, Response } from "express";
-import { BadRequestError, NotFoundError, OrderStatus, requireAuth, validateRequest } from "@jiptickets/common";
+import { BadRequestError, NotFoundError, requireAuth, validateRequest } from "@jiptickets/common";
 import { body } from "express-validator";
 import mongoose from "mongoose";
 import { Ticket } from "../models/ticket";
-import { Order } from "../models/order";
 
 const router = express.Router()
 
@@ -24,15 +23,8 @@ router.get('/api/orders', [
   }
 
   // Make sure the ticket is not reserved
-  const existingOrder = Order.findOne({
-    ticket: ticketId,
-    $in: [
-      OrderStatus.Created,
-      OrderStatus.AwaitingPayment,
-      OrderStatus.Complete
-    ]
-  }) 
-  if (!existingOrder) {
+  const isReserved = await ticket.isReserved()
+  if (isReserved) {
     throw new BadRequestError('Ticket is already reserved')
   }
 
