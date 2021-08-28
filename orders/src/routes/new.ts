@@ -9,7 +9,7 @@ const router = express.Router()
 
 const EXPIRATION_WINDOW_SECONDS = 15 * 60
 
-router.get('/api/orders', [
+router.post('/api/orders', [
   requireAuth,
   body('ticketId')
     .not()
