@@ -2,6 +2,9 @@ import mongoose from 'mongoose'
 import { OrderStatus } from '@jiptickets/common'
 import { TicketDoc } from './ticket'
 
+// Re-export "OrderStatus", just for easiness of access.
+export { OrderStatus }
+
 interface OrderAttrs {
   userId: string
   status: OrderStatus
