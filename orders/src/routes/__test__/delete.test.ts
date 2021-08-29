@@ -32,3 +32,5 @@ it('marks an order as cancelled', async () => {
   const updatedOrder = await Order.findById(createdOrder.id)
   expect(updatedOrder!.status).toEqual(OrderStatus.Cancelled)
 })
+
+it.todo('emits an "order:cancelled" event')
