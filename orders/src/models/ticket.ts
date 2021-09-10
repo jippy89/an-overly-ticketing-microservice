@@ -13,6 +13,7 @@ import { Order, OrderStatus } from './order'
  */
 
 interface TicketAttrs {
+  id: string
   title: string
   price: number
 }
@@ -47,7 +48,17 @@ const ticketSchema = new mongoose.Schema<TicketDoc>({
 })
 
 ticketSchema.statics.build = (attrs: TicketAttrs) => {
-  return new Ticket(attrs)
+  // Tutor doing it like this, but maybe you could use spread operator(?)
+  // Idk if it will be save in production thought.
+  // return new Ticket({
+  //   ...attrs,
+  //   _id: attrs.id,
+  // })
+  return new Ticket({
+    _id: attrs.id,
+    title: attrs.title,
+    price: attrs.price
+  })
 }
 ticketSchema.methods.isReserved = async function () {
   const existingOrder = await Order.findOne({
