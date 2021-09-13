@@ -11,6 +11,7 @@ interface TicketDoc extends mongoose.Document {
   title: string
   price: number
   userId: string
+  version: number
 }
 
 interface TicketModel extends mongoose.Model<TicketDoc> {
@@ -39,6 +40,7 @@ const ticketSchema = new mongoose.Schema<TicketDoc>({
   }
 })
 
+ticketSchema.set('versionKey', 'version')
 // Apparently there was a bug breaking the schema of `mongoose-update-if...` package
 // @ts-ignore
 ticketSchema.plugin(updateIfCurrentPlugin)
