@@ -1,4 +1,5 @@
 import mongoose from 'mongoose'
+import { updateIfCurrentPlugin } from 'mongoose-update-if-current'
 
 interface TicketAttrs {
   title: string
@@ -37,6 +38,10 @@ const ticketSchema = new mongoose.Schema<TicketDoc>({
     }
   }
 })
+
+// Apparently there was a bug breaking the schema of `mongoose-update-if...` package
+// @ts-ignore
+ticketSchema.plugin(updateIfCurrentPlugin)
 
 ticketSchema.statics.build = (attrs: TicketAttrs) => {
   return new Ticket(attrs)
