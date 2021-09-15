@@ -25,3 +25,19 @@ it('implements optimistic concurrency control', async () => {
   // Save the second fetched ticket and expect an error
   await expect(secondInstance!.save()).rejects.toThrow();
 })
+
+it('increments the version number on multiple saves', async () => {
+  // Create an instance of a ticket
+  const ticket = Ticket.build({
+    title: 'concert',
+    price: 5,
+    userId: '123'
+  })
+
+  await ticket.save()
+  expect(ticket.version).toEqual(0)
+  await ticket.save()
+  expect(ticket.version).toEqual(1)
+  await ticket.save()
+  expect(ticket.version).toEqual(2)
+})
