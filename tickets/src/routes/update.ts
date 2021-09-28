@@ -37,7 +37,8 @@ router.put('/api/tickets/:id', [
     id: foundTicket.id,
     title: foundTicket.title,
     price: foundTicket.price,
-    userId: foundTicket.userId
+    userId: foundTicket.userId,
+    version: foundTicket.version
   })
 
   res.send(foundTicket)
