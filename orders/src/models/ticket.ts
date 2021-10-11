@@ -1,4 +1,5 @@
 import mongoose from 'mongoose'
+import { updateIfCurrentPlugin } from 'mongoose-update-if-current'
 import { Order, OrderStatus } from './order'
 
 /**
@@ -21,6 +22,7 @@ interface TicketAttrs {
 export interface TicketDoc extends mongoose.Document {
   title: string
   price: number
+  version: number
   isReserved(): Promise<boolean>
 }
 
@@ -46,6 +48,11 @@ const ticketSchema = new mongoose.Schema<TicketDoc>({
     }
   }
 })
+
+ticketSchema.set('versionKey', 'version')
+// Apparently there was a bug breaking the schema of `mongoose-update-if...` package
+// @ts-ignore
+ticketSchema.plugin(updateIfCurrentPlugin)
 
 ticketSchema.statics.build = (attrs: TicketAttrs) => {
   // Tutor doing it like this, but maybe you could use spread operator(?)
