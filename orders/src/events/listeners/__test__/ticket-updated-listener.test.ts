@@ -55,3 +55,16 @@ it('acks the message', async () => {
 
   expect(msg.ack).toHaveBeenCalled()
 })
+
+it("doesn't ack future version number", async () => {
+  const { msg, data, listener } = await setup()
+
+  data.version = 10
+
+  try {
+    await listener.onMessage(data, msg)
+  } catch (e) {
+  }
+
+  expect(msg.ack).not.toHaveBeenCalled()
+})
