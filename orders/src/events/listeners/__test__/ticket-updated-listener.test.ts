@@ -37,7 +37,15 @@ const setup = async () => {
 }
 
 it('finds, updates, and find a ticket', async () => {
+  const { msg, data, ticket, listener } = await setup()
 
+  await listener.onMessage(data, msg)
+
+  const updatedTicket = await Ticket.findById(ticket.id)
+
+  expect(updatedTicket!.title).toEqual(data.title)
+  expect(updatedTicket!.price).toEqual(data.price)
+  expect(updatedTicket!.version).toEqual(data.version)
 })
 
 it('acks the message', async () => {
