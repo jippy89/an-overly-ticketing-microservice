@@ -1,4 +1,5 @@
 import mongoose from 'mongoose'
+import { updateIfCurrentPlugin } from 'mongoose-update-if-current'
 import { OrderStatus } from '@jiptickets/common'
 import { TicketDoc } from './ticket'
 
@@ -17,6 +18,7 @@ interface OrderDoc extends mongoose.Document {
   status: OrderStatus
   expiresAt: Date
   ticket: TicketDoc
+  version: number
 }
 
 interface OrderModel extends mongoose.Model<OrderDoc> {
@@ -49,6 +51,11 @@ const orderSchema = new mongoose.Schema<OrderDoc>({
     }
   }
 })
+
+orderSchema.set('versionKey', 'version')
+// Apparently there was a bug breaking the schema of `mongoose-update-if...` package
+// @ts-ignore
+orderSchema.plugin(updateIfCurrentPlugin)
 
 orderSchema.statics.build = (attrs: OrderAttrs) => {
   return new Order(attrs)
