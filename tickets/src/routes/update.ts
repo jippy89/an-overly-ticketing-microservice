@@ -1,4 +1,4 @@
-import { NotAuthorizedError, NotFoundError, requireAuth, validateRequest } from '@jiptickets/common'
+import { BadRequestError, NotAuthorizedError, NotFoundError, requireAuth, validateRequest } from '@jiptickets/common'
 import express, { Request, Response } from 'express'
 import { body } from 'express-validator'
 import { Ticket } from '../models/ticket'
@@ -22,6 +22,10 @@ router.put('/api/tickets/:id', [
 
   if (!foundTicket) {
     throw new NotFoundError()
+  }
+
+  if (foundTicket.orderId) {
+    throw new BadRequestError('Cannot edit a reserved ticket')
   }
 
   if (foundTicket.userId !== req.currentUser!.id) {
