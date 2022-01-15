@@ -1,0 +1,4 @@
+# Well we don't really need this
+# This is saved for documentation reason
+# `expiration-deploy.yaml` doesn't need a service, since data is connected through NATS
+# And not directly to the POD.
