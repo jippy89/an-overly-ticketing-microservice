@@ -9,5 +9,5 @@ However NATS Streaming doesn't support this. If there's such feature, this repos
 
 # Kubernetes Setup
 1. Go to this directory
-2. Run `docker build -t irfandyjip89/expiration`
-3. Run `docker push irfandyjip89/expiration`
+2. Run `docker build -t irfandyjip89/ticketing_expiration`
+3. Run `docker push irfandyjip89/ticketing_expiration`
