@@ -8,11 +8,13 @@ export class OrderCreatedListener extends Listener<OrderCreatedEvent> {
   queueGroupName = QueueGroupNames.ExpirationService
 
   async onMessage(data: OrderCreatedEvent['data'], msg: Message) {
-    // logic to mark the order as complete
-    console.log('Event data', data)
+    const delay = new Date(data.expiresAt).getTime() - new Date().getTime()
+    console.log("Waiting this miliseconds to process the job: ", delay)
 
     await expirationQueue.add({
       orderId: data.id
+    }, {
+      delay: delay
     })
 
     msg.ack()
