@@ -16,7 +16,7 @@
     "ts-jest": "^27.0.4"
   },
   "dependencies": {
-    "@jiptickets/common": "^1.0.15",
+    "@jiptickets/common": "^1.1.0",
     "@types/bull": "^3.15.7",
     "bull": "^4.2.0",
     "ts-node-dev": "^1.1.8",
