@@ -1,5 +1,5 @@
 import { Publisher, OrderCancelledEvent, Subjects } from "@jiptickets/common";
 
-export class OrderCancelledublisher extends Publisher<OrderCancelledEvent> {
+export class OrderCancelledPublisher extends Publisher<OrderCancelledEvent> {
   readonly subject = Subjects.OrderCancelled
 }
