@@ -57,6 +57,7 @@ it('publishes an OrderCancelled event', async () => {
   )
   expect(eventData.id).toEqual(order.id)
 })
+
 it('acks the expiration:complete message', async () => {
   const { listener, order, ticket, data, msg } = await setup()
 
