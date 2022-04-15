@@ -1,6 +1,6 @@
 import { NotAuthorizedError, NotFoundError, requireAuth } from "@jiptickets/common";
 import express, { Request, Response } from "express";
-import { OrderCancelledublisher } from "../events/publishers/order-cancelled-publisher";
+import { OrderCancelledPublisher } from "../events/publishers/order-cancelled-publisher";
 import { Order, OrderStatus } from "../models/order";
 import { natsWrapper } from "../nats-wrapper";
 
@@ -22,7 +22,7 @@ router.delete('/api/orders/:orderId', [requireAuth],async (req: Request, res: Re
   await order.save()
 
   // Publishes an event that order has been cancelled
-  new OrderCancelledublisher(natsWrapper.client).publish({
+  new OrderCancelledPublisher(natsWrapper.client).publish({
     id: order.id,
     version: order.version,
     ticket: {
