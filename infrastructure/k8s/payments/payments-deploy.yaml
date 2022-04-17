@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: payments-deploy
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: payments
+  template:
+    metadata:
+      labels:
+        app: payments
+    spec:
+      containers:
+        - name: payments
+          image: irfandyjip89/ticketing_payments
+          env:
+            - name: MONGO_URI
+              value: mongodb://payments-mongo-service-clusterip:27017/payments
+            - name: JWT_KEY # This is what you will look for in the container
+              valueFrom:
+                secretKeyRef:
+                  name: jwt-secret # This is the reference to the "Secret" object name
+                  key: JWT_KEY
+            - name: NATS_URL
+              value: http://nats-streaming-service-clusterip:4222
+            - name: NATS_CLUSTER_ID
+              value: ticketing
+            - name: NATS_CLIENT_ID
+              valueFrom: # Get the pod's name
+                fieldRef:
+                  fieldPath: metadata.name
