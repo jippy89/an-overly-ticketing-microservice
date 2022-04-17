@@ -48,3 +48,11 @@ build:
         manual:
           - src: '**/*.ts'
             dest: .
+    - image: irfandyjip89/ticketing_payments
+      context: payments
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: '**/*.ts'
+            dest: .
