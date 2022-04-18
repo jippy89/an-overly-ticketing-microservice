@@ -3,7 +3,6 @@ import { Message } from 'node-nats-streaming'
 import { Order } from '../../models/order'
 import { QueueGroupNames } from './queue-group-names'
 import { OrderCancelledPublisher } from '../publishers/order-cancelled-publisher'
-import { natsWrapper } from '../../nats-wrapper'
 
 export class ExpirationCompleteListener extends Listener<ExpirationCompleteEvent> {
   readonly subject = Subjects.ExpirationComplete
@@ -20,9 +19,9 @@ export class ExpirationCompleteListener extends Listener<ExpirationCompleteEvent
       status: OrderStatus.Cancelled
     })
     await order.save()
-    await new OrderCancelledPublisher(natsWrapper.client).publish({
+    await new OrderCancelledPublisher(this.client).publish({
       id: order.id,
-      version: order.version + 1,
+      version: order.version,
       ticket: {
         id: order.ticket.id
       }
