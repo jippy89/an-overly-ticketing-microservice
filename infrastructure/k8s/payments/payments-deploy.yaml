@@ -23,6 +23,11 @@ spec:
                 secretKeyRef:
                   name: jwt-secret # This is the reference to the "Secret" object name
                   key: JWT_KEY
+            - name: STRIPE_KEY # This is what you will look for in the container
+              valueFrom:
+                secretKeyRef:
+                  name: stripe-secret # This is the reference to the "Secret" object name
+                  key: STRIPE_KEY
             - name: NATS_URL
               value: http://nats-streaming-service-clusterip:4222
             - name: NATS_CLUSTER_ID
