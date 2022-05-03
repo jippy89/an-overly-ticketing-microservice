@@ -10,7 +10,7 @@ const LandingPage = ({ currentUser }) => {
  * There's a way to shorten the URL if it takes too long, by creating a service called "External Name Service"
  * However, such service is out of scope from this lecture.
  */
-LandingPage.getInitialProps = async (context) => {
+LandingPage.getInitialProps = async (context, client, currentUser) => {
   return {}
 }
 

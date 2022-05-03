@@ -18,7 +18,11 @@ AppComponent.getInitialProps = async (appContext) => {
   // So the `getInitialProps` inside the `pages/` can run
   // This is how NextJS behave if `getInitialProps` in `_app.js` is being used.
   if ('getInitialProps' in appContext.Component) {
-    pageProps = await appContext.Component.getInitialProps(appContext.ctx)
+    pageProps = await appContext.Component.getInitialProps(
+      appContext.ctx,
+      client,
+      data.currentUser
+    )
   }
 
   return {
