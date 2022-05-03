@@ -5,6 +5,7 @@ import mongoose from 'mongoose'
 import { Order } from '../../models/order'
 import { OrderStatus } from '@jiptickets/common'
 import { stripe } from '../../stripe'
+import { Payment } from '../../models/payment'
 
 jest.mock('../../stripe')
 
@@ -98,6 +99,8 @@ it('it returns 201 with valid inputs', async () => {
     })
     .expect(201)
 
+  // The below test code should've been updated to use the REAL Stripe API
+  // instead of the mock.
   const chargeOptions = (stripe.charges.create as jest.Mock).mock.calls[0][0]
 
   expect(chargeOptions.source).toEqual('tok_visa')
