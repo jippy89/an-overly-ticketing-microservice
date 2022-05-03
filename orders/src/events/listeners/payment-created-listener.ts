@@ -19,6 +19,10 @@ export class PaymentCreatedListener extends Listener<PaymentCreatedEvent> {
     });
     await order.save();
 
+    // Technically you can add another publisher like `order:updated`
+    // But it would be unnecessary especially for the tutorial and there
+    // will be no other listeners for this event.
+
     msg.ack();
   }
 }
