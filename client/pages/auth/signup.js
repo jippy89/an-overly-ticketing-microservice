@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import Route from 'next/router'
-import useRequest from '../../hooks/user-request.js'
+import useRequest from '../../hooks/use-request.js'
 
 const signUp = () => {
   const [email, setEmail] = useState('')
