@@ -3,6 +3,7 @@ import { body } from 'express-validator';
 import { requireAuth, validateRequest, BadRequestError, NotFoundError, NotAuthorizedError, OrderStatus } from '@jiptickets/common';
 import { stripe } from '../stripe';
 import { Order } from '../models/order';
+import { Payment } from '../models/payment';
 
 const router = express.Router();
 
@@ -39,6 +40,12 @@ router.post('/api/payments',
       amount: order.price * 100,
       source: token
     })
+
+    const payment = Payment.build({
+      orderId,
+      stripeId: charge.id
+    })
+    await payment.save()
 
     res.status(201).send({ success: true })
   }
