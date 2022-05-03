@@ -5,6 +5,7 @@ const userRequest = ({
   url,
   method,
   data,
+  onSuccess,
   ...config
 }) => {
   const [errors, setErrors] = useState([])
@@ -18,6 +19,10 @@ const userRequest = ({
         data,
         ...config
       })
+
+      if (onSuccess) {
+        onSuccess(response.data)
+      }
       
       return response
     } catch (err) {
