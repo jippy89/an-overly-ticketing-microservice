@@ -11,7 +11,8 @@ const LandingPage = ({ currentUser }) => {
  * However, such service is out of scope from this lecture.
  */
 LandingPage.getInitialProps = async (context, client, currentUser) => {
-  return {}
+  const { data } = await client.get('/api/tickets')
+  return { tickets: data }
 }
 
 export default LandingPage
