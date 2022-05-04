@@ -1,73 +1,62 @@
-import { useState } from "react"
-import useRequest from "../../hooks/use-request"
+import { useState } from 'react';
+import Router from 'next/router';
+import useRequest from '../../hooks/use-request';
 
 const NewTicket = () => {
-  const [title, setTitle] = useState("")
-  const [price, setPrice] = useState("")
+  const [title, setTitle] = useState('');
+  const [price, setPrice] = useState('');
   const { doRequest, errors } = useRequest({
-    url: "/api/tickets",
-    method: "post",
-    data: {
+    url: '/api/tickets',
+    method: 'post',
+    body: {
       title,
-      price
+      price,
     },
-    onSuccess: (data) => {
-      console.log('data', data)
-      setTitle("")
-      setPrice("")
-    }
-  })
-
-  const onPriceInputBlur = () => {
-    const value = parseFloat(price)
-
-    if (isNaN(value)) {
-      return
-    }
-
-    setPrice(value.toFixed(2))
-  }
+    onSuccess: () => Router.push('/'),
+  });
 
   const onSubmit = (event) => {
-    event.preventDefault()
-    doRequest()
-  }
+    event.preventDefault();
+
+    doRequest();
+  };
+
+  const onBlur = () => {
+    const value = parseFloat(price);
+
+    if (isNaN(value)) {
+      return;
+    }
+
+    setPrice(value.toFixed(2));
+  };
 
   return (
     <div>
-      <h1>Create a new ticket</h1>
+      <h1>Create a Ticket</h1>
       <form onSubmit={onSubmit}>
         <div className="form-group">
-          <label htmlFor="title">Title</label>
-          <input id="title"
-            type="text"
-            className="form-control"
+          <label>Title</label>
+          <input
             value={title}
-            onChange={e => setTitle(e.target.value)}
-          />
-        </div>
-
-        <div className="form-group">
-          <label htmlFor="price">Price</label>
-          <input id="price"
-            type="text"
+            onChange={(e) => setTitle(e.target.value)}
             className="form-control"
-            value={price}
-            onChange={e => setPrice(e.target.value)}
-            onBlur={onPriceInputBlur}
           />
         </div>
-
+        <div className="form-group">
+          <label>Price</label>
+          <input
+            value={price}
+            onBlur={onBlur}
+            onChange={(e) => setPrice(e.target.value)}
+            className="form-control"
+          />
+        </div>
         {errors}
-
-        <button type="submit" className="btn btn-primary">Submit</button>
+        <button className="btn btn-primary">Submit</button>
       </form>
     </div>
-  )
-}
+  );
+};
 
-NewTicket.getInitialProps = async (context, client, currentUser) => {
-  return {}
-}
-
-export default NewTicket
+export default NewTicket;
