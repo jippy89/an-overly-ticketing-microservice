@@ -1,7 +1,31 @@
-const LandingPage = ({ currentUser }) => {
-  return currentUser ?
-    (<h1>Hello {currentUser.email}</h1>) :
-    <h1>You are not signed in</h1>
+const LandingPage = ({ currentUser, tickets }) => {
+  const ticketList = tickets.map(ticket => (
+    <tr key={ticket.id}>
+      <td>{ticket.title}</td>
+      <td>{ticket.price}</td>
+      {/* <td>
+        <Link to={`/tickets/${ticket.id}`}>View</Link>
+      </td> */}
+    </tr>
+  ))
+
+  return (
+    <div>
+      <h1>Tickets</h1>
+      <table className="table">
+        <thead>
+          <tr>
+            <th>Title</th>
+            <th>Price</th>
+            {/* <th>Actions</th> */}
+          </tr>
+        </thead>
+        <tbody>
+          {ticketList}
+        </tbody>
+      </table>
+    </div>
+  )
 }
 
 /**
@@ -14,6 +38,7 @@ const LandingPage = ({ currentUser }) => {
  */
 LandingPage.getInitialProps = async (context, client, currentUser) => {
   const { data } = await client.get('/api/tickets')
+  console.log(data)
   return { tickets: data }
 }
 
