@@ -1,5 +1,7 @@
 const LandingPage = ({ currentUser }) => {
-  return currentUser ? (<h1>Hello {currentUser.email}</h1>) : <h1>You are not signed in</h1>
+  return currentUser ?
+    (<h1>Hello {currentUser.email}</h1>) :
+    <h1>You are not signed in</h1>
 }
 
 /**
